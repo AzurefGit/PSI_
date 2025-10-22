@@ -16,5 +16,6 @@ async def main(path: str) -> None:
 
 
 if __name__ == "__main__":
-    path = "D:/studia/rok 3/PSI_/lab2/plik.jpg"
+    # path = "D:/studia/rok 3/PSI_/lab2/plik.jpg"
+    path = "D:/175271/PSI_/lab2/plik.jpg"
     asyncio.run(main(path))

@@ -1,4 +1,3 @@
-# wtf is potok zadań
 import aiohttp
 import asyncio
 
