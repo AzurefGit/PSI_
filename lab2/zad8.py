@@ -8,7 +8,7 @@ async def fetch(url: str) -> str:
             return await response.json()
 
 
-async def midTemp(url: str) -> str:
+async def midTemp(url: str) -> float:
     sum = 0
     for el in url["hourly"]["temperature_2m"]:
         sum+=el
@@ -21,8 +21,6 @@ async def main() -> None:
 
     sites = await asyncio.gather(fetch(url_porlamar), fetch(url_moroni), fetch(url_helsinki))
 
-    test = await midTemp(sites[0])
-
     cities = {
         "Helsinki": sites[0]["current"],
         "Moroni": sites[1]["current"],
@@ -31,8 +29,7 @@ async def main() -> None:
 
     cities_copy = cities.copy()
 
-    print(test)
-    # cities_sorted = dict(sorted(cities_copy.items(), key=lambda item: item[1]["temperature_2m"], reverse=True))
+    cities_sorted = dict(sorted(cities_copy.items(), key=lambda item: item[1]["temperature_2m"], reverse=True))
 
     print(cities_sorted)
 
