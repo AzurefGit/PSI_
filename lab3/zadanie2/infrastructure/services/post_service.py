@@ -1,8 +1,8 @@
 from typing import Iterable
 
-from domains.post import PostRecord
-from repositories.post_repository import IPostRepository
-from services.ipost_service import IPostService
+from core.domain.post import PostRecord
+from infrastructure.repositories.post_repository import IPostRepository
+from infrastructure.services.ipost_service import IPostService
 
 
 class PostService(IPostService):
