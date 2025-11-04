@@ -7,3 +7,4 @@ class PostRecord:
     id: int
     title: str
     body: str
+    lastUsage: int

@@ -8,3 +8,4 @@ class CommentRecord:
     name: str
     email: str
     body: str
+    lastUsage: int
