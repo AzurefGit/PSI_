@@ -18,7 +18,7 @@ async def main(
     print('\n')
     sorted_posts = await post_service.sort_posts_by_time(cleaned_posts)
     print(sorted_posts)
-    searched_posts = await post_service.filter_posts_by_text(posts=sorted_posts,text_fragment="doloribus")
+    searched_posts = await post_service.filter_posts_by_text(posts=sorted_posts, text_fragment="doloribus")
     print(searched_posts)
 
     # Clean comments sorting and searching
