@@ -2,12 +2,16 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict
 
+from core.domain.post import PostIn
+
 
 class CommentIn(BaseModel):
     """Model representing comment's DTO attributes."""
     comment_id: int
+    post_id: PostIn.post_id
     text: str
     rating: int
+
 
 class Comment(CommentIn):
     """Model representing comment's attributes in the database."""

@@ -41,7 +41,7 @@ class IPostRepository(ABC):
             data (PostIn): The attributes of the post.
 
         Returns:
-            Post | None: The updated post.
+            Post | None: The updated post
         """
 
     @abstractmethod
@@ -52,5 +52,5 @@ class IPostRepository(ABC):
             post_id (int): The post id.
 
         Returns:
-            bool: Success of the operation.
+            bool: Success of the operation
         """

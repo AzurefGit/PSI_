@@ -1,12 +1,17 @@
 # from typing import Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, UUID1
 
 
 class PostIn(BaseModel):
     """Model representing post's DTO attributes."""
     post_id: int
     body: str
+
+
+class PostBroker(PostIn):
+    """A broker class including user in the model."""
+    user_id: UUID1
 
 
 class Post(PostIn):

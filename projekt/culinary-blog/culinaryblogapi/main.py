@@ -8,6 +8,7 @@ app = FastAPI()
 # app.include_router(post_router, prefix="/post")
 # app.include_router(comment_router, prefix="/comment")
 
+
 @app.exception_handler(HTTPException)
 async def http_exception_handle_logging(
     request: Request,
