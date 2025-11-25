@@ -6,4 +6,4 @@ from asyncpg import Record  # type: ignore
 from pydantic import BaseModel, ConfigDict
 
 
-class CommentDTO(BaseModel):
+# class CommentDTO(BaseModel):

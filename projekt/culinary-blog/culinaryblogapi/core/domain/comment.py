@@ -7,8 +7,7 @@ from core.domain.post import PostIn
 
 class CommentIn(BaseModel):
     """Model representing comment's DTO attributes."""
-    comment_id: int
-    post_id: PostIn.post_id
+    post_id: int
     text: str
     rating: int
 

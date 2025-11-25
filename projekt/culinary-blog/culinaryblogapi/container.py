@@ -1,3 +1,5 @@
+"""Module providing containers injecting dependencies."""
+
 from dependency_injector import containers, providers
 
 # from infrastructure.repositories.post_repository import PostRepository

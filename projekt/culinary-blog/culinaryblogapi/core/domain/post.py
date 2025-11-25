@@ -5,7 +5,6 @@ from pydantic import BaseModel, ConfigDict, UUID1
 
 class PostIn(BaseModel):
     """Model representing post's DTO attributes."""
-    post_id: int
     body: str
 
 

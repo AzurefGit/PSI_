@@ -4,43 +4,46 @@ import asyncio
 
 import databases
 import sqlalchemy
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.exc import OperationalError, DatabaseError
 from sqlalchemy.ext.asyncio import create_async_engine
-from asyncpg.exceptions import (    # type: ignore
+from asyncpg.exceptions import (
     CannotConnectNowError,
     ConnectionDoesNotExistError,
 )
 
 from config import config
 
+
 metadata = sqlalchemy.MetaData()
 
-continent_table = sqlalchemy.Table(
-    "continents",
+posts_table = sqlalchemy.Table(
+    "posts",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("name", sqlalchemy.String),
-    sqlalchemy.Column("alias", sqlalchemy.String),
+    sqlalchemy.Column("body", sqlalchemy.String),
 )
 
-country_table = sqlalchemy.Table(
-    "countries",
+users_table = sqlalchemy.Table(
+    "users",
     metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("name", sqlalchemy.String),
-    sqlalchemy.Column("alias", sqlalchemy.String),
     sqlalchemy.Column(
-        "continent_id",
-        sqlalchemy.ForeignKey("continents.id"),
-        nullable=False,
+        "id",
+        UUID(as_uuid=True),
+        primary_key=True,
+        server_default=sqlalchemy.text("gen_random_uuid()"),
     ),
+    sqlalchemy.Column("email", sqlalchemy.String, unique=True),
+    sqlalchemy.Column("password", sqlalchemy.String),
 )
 
-airport_table = sqlalchemy.Table(
-    "airports",
+comments_table = sqlalchemy.Table(
+    "comments",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("name", sqlalchemy.String),
+    sqlalchemy.Column("post_id", sqlalchemy.Integer, foreign_key="posts.id"),
+    sqlalchemy.Column("text", sqlalchemy.String),
+    sqlalchemy.Column("rating", sqlalchemy.Intiger),
 )
 
 db_uri = (
@@ -60,14 +63,13 @@ database = databases.Database(
     force_rollback=True,
 )
 
-
 async def init_db(retries: int = 5, delay: int = 5) -> None:
-    """Function initializing the DB.
+    """Function initializing the database.
 
     Args:
-        retries (int, optional): Number of retries of connect to DB.
+        retries (int, optional): Number of retries of connect to database.
             Defaults to 5.
-        delay (int, optional): Delay of connect do DB. Defaults to 2.
+        delay (int, optional): Delay of connect do database. Defaults to 2.
     """
     for attempt in range(retries):
         try:
@@ -83,4 +85,4 @@ async def init_db(retries: int = 5, delay: int = 5) -> None:
             print(f"Attempt {attempt + 1} failed: {e}")
             await asyncio.sleep(delay)
 
-    raise ConnectionError("Could not connect to DB after several retries.")
+    raise ConnectionError("Could not connect to database after several retries.")
