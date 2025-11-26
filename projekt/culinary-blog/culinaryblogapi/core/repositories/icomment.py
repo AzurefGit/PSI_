@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Iterable
 
-from core.domain.comment import Comment, CommentIn
+from culinaryblogapi.core.domain.comment import Comment, CommentIn
 
 
 class ICommentRepository(ABC):

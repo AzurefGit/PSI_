@@ -6,7 +6,7 @@ from typing import Any
 
 from pydantic import UUID5
 
-from core.domain.user import UserIn
+from culinaryblogapi.core.domain.user import UserIn
 
 
 class IUserRepository(ABC):

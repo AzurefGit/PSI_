@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict
 
-from core.domain.post import PostIn
+from culinaryblogapi.core.domain.post import PostIn
 
 
 class CommentIn(BaseModel):

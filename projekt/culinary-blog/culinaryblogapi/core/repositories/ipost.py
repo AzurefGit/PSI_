@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Iterable
 
-from core.domain.post import PostIn, Post
+from culinaryblogapi.core.domain.post import PostIn, Post
 
 
 class IPostRepository(ABC):
