@@ -2,6 +2,8 @@ from typing import Optional, Iterable
 
 from pydantic import BaseModel, ConfigDict, UUID4
 
+from culinaryblogapi.core.domain.comment import Comment
+
 
 class PostIn(BaseModel):
     """Model representing post's DTO attributes."""
@@ -12,6 +14,7 @@ class PostIn(BaseModel):
     recipe_instructions: Iterable[str]
     cook_time_minutes: Optional[int]
     tags: Optional[Iterable[str]]
+    # comments_section: Iterable[Comment] = None
     image_url: Optional[str]
 
 

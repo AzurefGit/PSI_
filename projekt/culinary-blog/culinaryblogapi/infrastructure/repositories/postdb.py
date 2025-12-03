@@ -5,8 +5,10 @@ from asyncpg import Record
 
 from culinaryblogapi.core.domain.post import Post, PostIn
 from culinaryblogapi.core.repositories.ipost import IPostRepository
+from culinaryblogapi.core.domain.comment import Comment, CommentIn
 from culinaryblogapi.db import (
     posts_table,
+    comments_table,
     database
 )
 
@@ -32,7 +34,7 @@ class PostRepository(IPostRepository):
         """
 
         query = posts_table.select().order_by(posts_table.c.name.asc())
-        comments = await database.fetch_all(query)
+        posts = await database.fetch_all(query)
 
         return [Post(**dict(post)) for post in posts]
 

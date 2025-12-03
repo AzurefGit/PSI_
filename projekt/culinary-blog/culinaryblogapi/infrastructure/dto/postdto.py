@@ -4,6 +4,8 @@ from typing import Optional, Iterable
 from asyncpg import Record
 from pydantic import UUID4, BaseModel, ConfigDict
 
+# from culinaryblogapi.core.domain.comment import Comment
+from culinaryblogapi.infrastructure.dto.commentdto import CommentDTO
 
 class PostDTO(BaseModel):
     id: int
@@ -15,6 +17,7 @@ class PostDTO(BaseModel):
     cook_time_minutes: Optional[int]
     tags: Optional[Iterable[str]]
     image_url: Optional[str]
+    # comments_section: Iterable[Comment] = None
     user_id: UUID4
 
     model_config = ConfigDict(
@@ -45,5 +48,8 @@ class PostDTO(BaseModel):
             cook_time_minutes=record_dict.get("cook_time_minutes"),
             tags=record_dict.get("tags"),
             image_url=record_dict.get("image_url"),
+            # comment_section=Iterable[CommentDTO(
+            #     id=record_dict.get("id_1"),
+            # )],
             user_id=record_dict.get("user_id")
         )

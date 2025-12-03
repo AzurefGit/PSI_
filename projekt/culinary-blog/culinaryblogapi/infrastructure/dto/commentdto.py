@@ -43,4 +43,3 @@ class CommentDTO(BaseModel):
             likes_count=record_dict.get("likes_count"),
             user_id=record_dict.get("user_id")
         )
-
