@@ -24,6 +24,14 @@ posts_table = sqlalchemy.Table(
     sqlalchemy.Column("body", sqlalchemy.String),
 )
 
+comments_table = sqlalchemy.Table(
+    "comments",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("text", sqlalchemy.String),
+    sqlalchemy.Column("rating", sqlalchemy.Intiger),
+)
+
 users_table = sqlalchemy.Table(
     "users",
     metadata,
@@ -37,14 +45,6 @@ users_table = sqlalchemy.Table(
     sqlalchemy.Column("password", sqlalchemy.String),
 )
 
-comments_table = sqlalchemy.Table(
-    "comments",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("post_id", sqlalchemy.Integer, foreign_key="posts.id"),
-    sqlalchemy.Column("text", sqlalchemy.String),
-    sqlalchemy.Column("rating", sqlalchemy.Intiger),
-)
 
 db_uri = (
     f"postgresql+asyncpg://{config.DB_USER}:{config.DB_PASSWORD}"

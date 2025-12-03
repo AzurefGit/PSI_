@@ -2,14 +2,15 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict
 
-from culinaryblogapi.core.domain.post import PostIn
-
 
 class CommentIn(BaseModel):
     """Model representing comment's DTO attributes."""
-    post_id: int
     text: str
     rating: int
+    nickname: str
+    author_email: Optional[str]
+    likes_count: int = 0
+    parent_comment_id: Optional[int]
 
 
 class Comment(CommentIn):
