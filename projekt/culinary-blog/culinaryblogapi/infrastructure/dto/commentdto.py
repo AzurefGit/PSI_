@@ -12,6 +12,7 @@ class CommentDTO(BaseModel):
     rating: int
     nickname: str
     author_email: Optional[str]
+    likes_count: int = 0
     parent_comment_id: Optional[int]
     user_id: UUID4
 

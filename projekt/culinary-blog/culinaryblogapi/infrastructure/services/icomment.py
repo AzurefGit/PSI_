@@ -60,7 +60,7 @@ class ICommentService(ABC):
             data (CommentBroker): The details of the updated comment.
 
         Returns:
-            Airport | None: The updated comment details.
+            Comment | None: The updated comment details.
         """
 
     @abstractmethod

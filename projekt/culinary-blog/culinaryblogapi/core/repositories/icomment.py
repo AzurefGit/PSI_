@@ -25,6 +25,17 @@ class ICommentRepository(ABC):
         """
 
     @abstractmethod
+    async def get_by_user(self, user_id: int) -> Iterable[Comment]:
+        """The abstract getting comments by user who added them.
+
+        Args:
+            user_id (int): The id of the user.
+
+        Returns:
+            Iterable[Comment]: The comment collection.
+        """
+
+    @abstractmethod
     async def add_comment(self, data: CommentIn) -> None:
         """The abstract adding new comment to the data storage.
 
