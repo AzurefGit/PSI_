@@ -21,7 +21,14 @@ posts_table = sqlalchemy.Table(
     "posts",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("title", sqlalchemy.String),
     sqlalchemy.Column("body", sqlalchemy.String),
+    sqlalchemy.Column("description", sqlalchemy.String, nullable=True),
+    sqlalchemy.Column("recipe_ingredients", sqlalchemy.String),
+    sqlalchemy.Column("recipe_instructions", sqlalchemy.String, nullable=True),
+    sqlalchemy.Column("cook_time_minutes", sqlalchemy.Integer),
+    sqlalchemy.Column("tags", sqlalchemy.String),
+    sqlalchemy.Column("image_url", sqlalchemy.String, nullable=True)
 )
 
 comments_table = sqlalchemy.Table(
@@ -30,6 +37,10 @@ comments_table = sqlalchemy.Table(
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("text", sqlalchemy.String),
     sqlalchemy.Column("rating", sqlalchemy.Intiger),
+    sqlalchemy.Column("nickname", sqlalchemy.String),
+    sqlalchemy.Column("author_email", sqlalchemy.String, nullable=True),
+    sqlalchemy.Column("likes_count", sqlalchemy.Intiger),
+    sqlalchemy.Column("parent_comment_id", sqlalchemy.Intiger, nullable=True)
 )
 
 users_table = sqlalchemy.Table(
@@ -62,6 +73,7 @@ database = databases.Database(
     db_uri,
     force_rollback=True,
 )
+
 
 async def init_db(retries: int = 5, delay: int = 5) -> None:
     """Function initializing the database.

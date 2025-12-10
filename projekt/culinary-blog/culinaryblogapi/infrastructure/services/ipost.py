@@ -11,15 +11,15 @@ class IPostService(ABC):
     """A class representing post repository."""
 
     @abstractmethod
-    async def get_all_posts(self) -> Iterable[PostDTO]:
+    async def get_all_posts(self) -> Iterable[Post]:
         """The method getting all posts from the repository.
 
         Returns:
-            Iterable[PostDTO]: All posts.
+            Iterable[Post]: All posts.
         """
 
     @abstractmethod
-    async def get_by_id(self, post_id: int) -> PostDTO | None:
+    async def get_post_by_id(self, post_id: int) -> PostDTO | None:
         """The method getting post by given id.
 
         Args:
@@ -41,7 +41,7 @@ class IPostService(ABC):
         """
 
     @abstractmethod
-    async def add_post(self, data: PostBroker) -> Post:
+    async def add_post(self, data: PostBroker) -> Post | None:
         """The method adding new post to the data storage.
 
         Args:
@@ -60,7 +60,7 @@ class IPostService(ABC):
             data (PostBroker): The details of the updated post.
 
         Returns:
-            Airport | None: The updated post details.
+            Post | None: The updated post details.
         """
 
     @abstractmethod
@@ -71,5 +71,5 @@ class IPostService(ABC):
             post_id (int): The id of the post.
 
         Returns:
-              bool: Result of the operation.
+            bool: Result of the operation.
         """

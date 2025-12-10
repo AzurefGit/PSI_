@@ -36,6 +36,18 @@ class CommentRepository(ICommentRepository):
 
         return [Comment(**dict(comment)) for comment in comments]
 
+    async def get_by_user(self, user_id: int) -> Iterable[Comment]:
+        """The abstract getting comments by user who added them.
+
+        Args:
+            user_id (int): The id of the user.
+
+        Returns:
+            Iterable[comment]: The comment collection.
+        """
+
+        return []
+
     async def add_comment(self, data: CommentIn) -> Any | None:
         """The abstract adding new comment to the data storage.
 
@@ -85,8 +97,8 @@ class CommentRepository(ICommentRepository):
 
         if self._get_by_id(comment_id):
             query = comments_table \
-            .delete() \
-            .where(comments_table.c.id == comment_id)
+                .delete() \
+                .where(comments_table.c.id == comment_id)
             await database.execute(query)
 
             return True

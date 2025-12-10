@@ -2,10 +2,10 @@
 
 from typing import Iterable
 
-from core.domain.comment import Comment, CommentIn
-from core.repositories.icomment import ICommentRepository
-from infrastructure.dto.commentdto import CommentDTO
-from infrastructure.services.icomment import ICommentService
+from culinaryblogapi.core.domain.comment import Comment, CommentIn
+from culinaryblogapi.core.repositories.icomment import ICommentRepository
+from culinaryblogapi.infrastructure.dto.commentdto import CommentDTO
+from culinaryblogapi.infrastructure.services.icomment import ICommentService
 
 
 class CommentService(ICommentService):
@@ -22,7 +22,7 @@ class CommentService(ICommentService):
 
         self._repository = repository
 
-    async def get_all_comments(self) -> Iterable[CommentDTO]:
+    async def get_all_comments(self) -> Iterable[Comment]:
         """The method getting all comments from the repository.
 
         Returns:

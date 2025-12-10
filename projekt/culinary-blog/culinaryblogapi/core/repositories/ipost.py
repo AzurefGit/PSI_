@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Iterable
 
-from culinaryblogapi.core.domain.post import PostIn, Post
+from culinaryblogapi.core.domain.post import PostIn, Post, PostBroker
 
 
 class IPostRepository(ABC):
@@ -25,7 +25,18 @@ class IPostRepository(ABC):
         """
 
     @abstractmethod
-    async def add_post(self, data: PostIn) -> None:
+    async def get_by_user(self, user_id: int) -> Iterable[Post]:
+        """The method getting posts by user who added them.
+
+        Args:
+            user_id (int): The id of the user.
+
+        Returns:
+            Iterable[Post]: The post collection.
+        """
+
+    @abstractmethod
+    async def add_post(self, data: PostBroker) -> Post | None:
         """The abstract adding new post to the data storage.
 
         Args:
@@ -33,7 +44,7 @@ class IPostRepository(ABC):
         """
 
     @abstractmethod
-    async def update_post(self, post_id: int, data: PostIn) -> Post | None:
+    async def update_post(self, post_id: int, data: PostBroker) -> Post | None:
         """The abstract updating post data in the data storage.
 
         Args:

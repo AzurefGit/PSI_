@@ -32,7 +32,7 @@ class ICommentRepository(ABC):
             user_id (int): The id of the user.
 
         Returns:
-            Iterable[Comment]: The comment collection.
+            Iterable[comment]: The comment collection.
         """
 
     @abstractmethod
