@@ -3,12 +3,12 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Singleton, Factory
 
-from infrastructure.repositories.postdb import PostRepository
-from infrastructure.services.post import PostService
-from infrastructure.repositories.commentdb import CommentRepository
-from infrastructure.services.comment import CommentService
-from infrastructure.repositories.user import UserRepository
-from infrastructure.services.user import UserService
+from culinaryblogapi.infrastructure.repositories.postdb import PostRepository
+from culinaryblogapi.infrastructure.services.post import PostService
+from culinaryblogapi.infrastructure.repositories.commentdb import CommentRepository
+from culinaryblogapi.infrastructure.services.comment import CommentService
+from culinaryblogapi.infrastructure.repositories.user import UserRepository
+from culinaryblogapi.infrastructure.services.user import UserService
 
 
 class Container(DeclarativeContainer):

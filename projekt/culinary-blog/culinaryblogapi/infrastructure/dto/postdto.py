@@ -5,7 +5,6 @@ from asyncpg import Record
 from pydantic import UUID4, BaseModel, ConfigDict
 
 # from culinaryblogapi.core.domain.comment import Comment
-from culinaryblogapi.infrastructure.dto.commentdto import CommentDTO
 
 class PostDTO(BaseModel):
     id: int

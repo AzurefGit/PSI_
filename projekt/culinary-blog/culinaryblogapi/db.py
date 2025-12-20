@@ -12,7 +12,7 @@ from asyncpg.exceptions import (
     ConnectionDoesNotExistError,
 )
 
-from config import config
+from culinaryblogapi.config import config
 
 
 metadata = sqlalchemy.MetaData()
@@ -36,14 +36,14 @@ comments_table = sqlalchemy.Table(
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("text", sqlalchemy.String),
-    sqlalchemy.Column("rating", sqlalchemy.Intiger),
+    sqlalchemy.Column("rating", sqlalchemy.Integer),
     sqlalchemy.Column("nickname", sqlalchemy.String),
     sqlalchemy.Column("author_email", sqlalchemy.String, nullable=True),
-    sqlalchemy.Column("likes_count", sqlalchemy.Intiger),
-    sqlalchemy.Column("parent_comment_id", sqlalchemy.Intiger, nullable=True)
+    sqlalchemy.Column("likes_count", sqlalchemy.Integer),
+    sqlalchemy.Column("parent_comment_id", sqlalchemy.Integer, nullable=True)
 )
 
-users_table = sqlalchemy.Table(
+user_table = sqlalchemy.Table(
     "users",
     metadata,
     sqlalchemy.Column(

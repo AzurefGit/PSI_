@@ -31,7 +31,7 @@ class CommentRepository(ICommentRepository):
             Iterable[Comment]: Comments in the data storage.
         """
 
-        query = comments_table.select().order_by(comments_table.c.name.asc())
+        query = comments_table.select().order_by(comments_table.c.rating.asc())
         comments = await database.fetch_all(query)
 
         return [Comment(**dict(comment)) for comment in comments]
@@ -46,7 +46,14 @@ class CommentRepository(ICommentRepository):
             Iterable[comment]: The comment collection.
         """
 
-        return []
+        query = (
+            comments_table.select()
+            .where(comments_table.c.user_id == user_id)
+            .order_by(comments_table.c.rating.asc())
+        )
+        comments = await database.fetch_all(query)
+
+        return [Comment(**dict(comment)) for comment in comments]
 
     async def add_comment(self, data: CommentIn) -> Any | None:
         """The abstract adding new comment to the data storage.
@@ -118,7 +125,7 @@ class CommentRepository(ICommentRepository):
         query = (
             comments_table.select()
             .where(comments_table.c.id == comment_id)
-            .order_by(comments_table.c.name.asc())
+            .order_by(comments_table.c.rating.asc())
         )
 
         return await database.fetch_one(query)
