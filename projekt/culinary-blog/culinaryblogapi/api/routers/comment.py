@@ -107,13 +107,13 @@ async def get_comment_by_id(
 )
 @inject
 async def get_comment_by_user(
-    user_id: int,
+    user_id: str,
     service: ICommentService = Depends(Provide[Container.comment_service]),
 ) -> Iterable:
     """An endpoint for getting comments by user who added them.
 
     Args:
-        user_id (int): The id of the user.
+        user_id (str): The id of the user.
         service (ICommentService, optional): The injected service dependency.
 
     Returns:
@@ -193,7 +193,7 @@ async def delete_comment(
         HTTPException: 404 if comment does not exist.
     """
 
-    if await service.get_comment_by_id(comment_id=comment_id):
+    if await service.get_by_id(comment_id=comment_id):
         await service.delete_comment(comment_id)
 
         return

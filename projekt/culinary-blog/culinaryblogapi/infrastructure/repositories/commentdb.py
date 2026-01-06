@@ -36,11 +36,11 @@ class CommentRepository(ICommentRepository):
 
         return [Comment(**dict(comment)) for comment in comments]
 
-    async def get_by_user(self, user_id: int) -> Iterable[Comment]:
+    async def get_by_user(self, user_id: str) -> Iterable[Comment]:
         """The abstract getting comments by user who added them.
 
         Args:
-            user_id (int): The id of the user.
+            user_id (str): The id of the user.
 
         Returns:
             Iterable[comment]: The comment collection.

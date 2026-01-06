@@ -38,14 +38,14 @@ class PostRepository(IPostRepository):
 
         return [Post(**dict(post)) for post in posts]
 
-    async def get_by_user(self, user_id: int) -> Iterable[Post]:
-        """The abstract getting comments by user who added them.
+    async def get_by_user(self, user_id: str) -> Iterable[Post]:
+        """The abstract getting posts by user who added them.
 
         Args:
-            user_id (int): The id of the user.
+            user_id (str): The id of the user.
 
         Returns:
-            Iterable[comment]: The comment collection.
+            Iterable[post]: The post collection.
         """
 
         query = (

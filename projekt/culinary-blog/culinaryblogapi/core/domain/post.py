@@ -1,4 +1,4 @@
-from typing import Optional, Iterable
+from typing import Optional, List
 
 from pydantic import BaseModel, ConfigDict, UUID4
 
@@ -10,11 +10,11 @@ class PostIn(BaseModel):
     title: str
     body: str
     description: Optional[str]
-    recipe_ingredients: Iterable[str]
-    recipe_instructions: Iterable[str]
+    recipe_ingredients: str
+    recipe_instructions: str
     cook_time_minutes: Optional[int]
-    tags: Optional[Iterable[str]]
-    # comments_section: Iterable[Comment] = None
+    tags: Optional[str]
+    # comments_section: List[Comment] = None
     image_url: Optional[str]
 
 

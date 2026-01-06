@@ -30,11 +30,11 @@ class ICommentService(ABC):
         """
 
     @abstractmethod
-    async def get_by_user(self, user_id: int) -> Iterable[Comment]:
+    async def get_by_user(self, user_id: str) -> Iterable[Comment]:
         """The method getting comments by user who added them.
 
         Args:
-            user_id (int): The id of the user.
+            user_id (str): The id of the user.
 
         Returns:
             Iterable[Comment]: The comment collection.

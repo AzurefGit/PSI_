@@ -30,11 +30,11 @@ class IPostService(ABC):
         """
 
     @abstractmethod
-    async def get_by_user(self, user_id: int) -> Iterable[Post]:
+    async def get_by_user(self, user_id: str) -> Iterable[Post]:
         """The method getting posts by user who added them.
 
         Args:
-            user_id (int): The id of the user.
+            user_id (str): The id of the user.
 
         Returns:
             Iterable[Post]: The post collection.

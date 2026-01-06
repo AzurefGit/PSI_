@@ -12,6 +12,7 @@ from asyncpg.exceptions import (
     ConnectionDoesNotExistError,
 )
 
+
 from culinaryblogapi.config import config
 
 
@@ -28,7 +29,13 @@ posts_table = sqlalchemy.Table(
     sqlalchemy.Column("recipe_instructions", sqlalchemy.String, nullable=True),
     sqlalchemy.Column("cook_time_minutes", sqlalchemy.Integer),
     sqlalchemy.Column("tags", sqlalchemy.String),
-    sqlalchemy.Column("image_url", sqlalchemy.String, nullable=True)
+    sqlalchemy.Column("image_url", sqlalchemy.String, nullable=True),
+    sqlalchemy.Column(
+        "user_id",
+        UUID(as_uuid=True),
+        sqlalchemy.ForeignKey("users.id"),
+        nullable=False
+    )
 )
 
 comments_table = sqlalchemy.Table(
@@ -40,7 +47,13 @@ comments_table = sqlalchemy.Table(
     sqlalchemy.Column("nickname", sqlalchemy.String),
     sqlalchemy.Column("author_email", sqlalchemy.String, nullable=True),
     sqlalchemy.Column("likes_count", sqlalchemy.Integer),
-    sqlalchemy.Column("parent_comment_id", sqlalchemy.Integer, nullable=True)
+    sqlalchemy.Column("parent_comment_id", sqlalchemy.Integer, nullable=True),
+    sqlalchemy.Column(
+        "user_id",
+        UUID(as_uuid=True),
+        sqlalchemy.ForeignKey("users.id"),
+        nullable=False
+    )
 )
 
 user_table = sqlalchemy.Table(

@@ -108,7 +108,7 @@ async def get_post_by_id(
 )
 @inject
 async def get_posts_by_user(
-    user_id: int,
+    user_id: str,
     service: IPostService = Depends(Provide[Container.post_service]),
 ) -> Iterable:
     """An endpoint for getting posts by user who added them.
@@ -160,7 +160,7 @@ async def update_post(
     if not user_uuid:
         raise HTTPException(status_code=403, detail="Unauthorized")
 
-    if post_data := await service.get_by_id(post_id=post_id):
+    if post_data := await service.get_post_by_id(post_id=post_id):
         if str(post_data.user_id) != user_uuid:
             raise HTTPException(status_code=403, detail="Unauthorized")
 

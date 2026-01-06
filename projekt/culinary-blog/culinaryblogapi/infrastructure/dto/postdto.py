@@ -1,5 +1,5 @@
 """Module containing comment repository implementation."""
-from typing import Optional, Iterable
+from typing import Optional
 
 from asyncpg import Record
 from pydantic import UUID4, BaseModel, ConfigDict
@@ -11,12 +11,12 @@ class PostDTO(BaseModel):
     title: str
     body: str
     description: Optional[str]
-    recipe_ingredients: Iterable[str]
-    recipe_instructions: Iterable[str]
-    cook_time_minutes: Optional[int]
-    tags: Optional[Iterable[str]]
+    recipe_ingredients: str
+    recipe_instructions: str
+    cook_time_minutes: int
+    tags: Optional[str]
     image_url: Optional[str]
-    # comments_section: Iterable[Comment] = None
+    # comments_section: List[Comment] = None
     user_id: UUID4
 
     model_config = ConfigDict(
@@ -33,7 +33,7 @@ class PostDTO(BaseModel):
             record (Record): The DB record.
 
         Returns:
-            CommentDTO: The final DTO instance.
+            PostDTO: The final DTO instance.
         """
         record_dict = dict(record)
 
