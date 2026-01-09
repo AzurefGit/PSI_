@@ -41,6 +41,17 @@ class PostService(IPostService):
 
         return await self._repository.get_post_by_id(post_id)
 
+    async def get_by_title(self, text: str) -> Iterable[Post]:
+        """The method getting posts by given title or by a part of it.
+        Args:
+            text (str): The title of the post.
+
+        Returns:
+            Iterable[Post]: The post collection.
+        """
+
+        return await self._repository.get_by_title(text)
+
     async def get_by_user(self, user_id: str) -> Iterable[Post]:
         """The method getting posts by user who added them.
 
@@ -89,3 +100,25 @@ class PostService(IPostService):
         """
 
         return await self._repository.delete_post(post_id)
+
+    async def update_post_rating(
+        self,
+        post_id: int,
+        avg_rating: float,
+        ratings_count: int
+    ) -> bool:
+        """The method for updating post's rating statistics.
+
+        Args:
+            post_id (int): The id of the post.
+            avg_rating (float): The new average rating.
+            ratings_count (int): The total number of ratings.
+
+        Returns:
+            bool: Success of the operation.
+        """
+        return await self._repository.update_post_rating(
+            post_id,
+            avg_rating,
+            ratings_count
+        )

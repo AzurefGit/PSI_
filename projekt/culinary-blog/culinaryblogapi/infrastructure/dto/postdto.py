@@ -4,19 +4,16 @@ from typing import Optional
 from asyncpg import Record
 from pydantic import UUID4, BaseModel, ConfigDict
 
-# from culinaryblogapi.core.domain.comment import Comment
 
 class PostDTO(BaseModel):
     id: int
     title: str
     body: str
     description: Optional[str]
-    recipe_ingredients: str
-    recipe_instructions: str
-    cook_time_minutes: int
+    cook_time_minutes: Optional[int]
     tags: Optional[str]
-    image_url: Optional[str]
-    # comments_section: List[Comment] = None
+    avg_rating: float
+    ratings_count: int
     user_id: UUID4
 
     model_config = ConfigDict(
@@ -42,13 +39,9 @@ class PostDTO(BaseModel):
             title=record_dict.get("title"),
             body=record_dict.get("body"),
             description=record_dict.get("description"),
-            recipe_ingredients=record_dict.get("recipe_ingredients"),
-            recipe_instructions=record_dict.get("recipe_instructions"),
             cook_time_minutes=record_dict.get("cook_time_minutes"),
             tags=record_dict.get("tags"),
-            image_url=record_dict.get("image_url"),
-            # comment_section=Iterable[CommentDTO(
-            #     id=record_dict.get("id_1"),
-            # )],
+            avg_rating=record_dict.get("avg_rating"),
+            ratings_count=record_dict.get("ratings_count"),
             user_id=record_dict.get("user_id")
         )

@@ -1,16 +1,11 @@
-from typing import Optional
-
 from pydantic import BaseModel, ConfigDict, UUID4
 
 
 class CommentIn(BaseModel):
     """Model representing comment's DTO attributes."""
+    post_id: int
     text: str
-    rating: int
     nickname: str
-    author_email: Optional[str]
-    likes_count: int = 0
-    parent_comment_id: Optional[int]
 
 
 class CommentBroker(CommentIn):
@@ -21,5 +16,7 @@ class CommentBroker(CommentIn):
 class Comment(CommentBroker):
     """Model representing comment's attributes in the database."""
     id: int
+    likes: int = 0
+    dislikes: int = 0
 
     model_config = ConfigDict(from_attributes=True, extra="ignore")

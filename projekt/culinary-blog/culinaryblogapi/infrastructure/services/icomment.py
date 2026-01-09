@@ -73,3 +73,27 @@ class ICommentService(ABC):
         Returns:
               bool: Result of the operation.
         """
+
+    @abstractmethod
+    async def add_like(self, comment_id: int, user_id: str) -> bool:
+        """The method for adding a like to a comment.
+
+        Args:
+            comment_id (int): The id of the comment.
+            user_id (str): The id of the user.
+
+        Returns:
+            bool: Success of the operation.
+        """
+
+    @abstractmethod
+    async def add_dislike(self, comment_id: int, user_id: str) -> bool:
+        """The method for adding a dislike to a comment.
+
+        Args:
+            comment_id (int): The id of the comment.
+            user_id (str): The id of the user.
+
+        Returns:
+            bool: Success of the operation.
+        """

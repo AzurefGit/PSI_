@@ -35,6 +35,7 @@ async def create_comment(
     Returns:
         dict: The new comment attributes.
     """
+    
     token = credentials.credentials
     token_payload = jwt.decode(
         token,
@@ -198,4 +199,73 @@ async def delete_comment(
 
         return
 
+    raise HTTPException(status_code=404, detail="Comment not found")
+
+
+@router.post("/{comment_id}/like", status_code=200)
+@inject
+async def add_like(
+    comment_id: int,
+    service: ICommentService = Depends(Provide[Container.comment_service]),
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+) -> dict:
+    """An endpoint for adding a like to a comment.
+
+    Args:
+        comment_id (int): The id of the comment.
+        service (ICommentService, optional): The injected service dependency.
+        credentials (HTTPAuthorizationCredentials, optional): The credentials.
+
+    Returns:
+        dict: Success message.
+    """
+    token = credentials.credentials
+    token_payload = jwt.decode(
+        token,
+        key=consts.SECRET_KEY,
+        algorithms=[consts.ALGORITHM],
+    )
+    user_uuid = token_payload.get("sub")
+
+    if not user_uuid:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+
+    if await service.add_like(comment_id, user_uuid):
+        return {"message": "Like added"}
+    
+    raise HTTPException(status_code=404, detail="Comment not found")
+
+
+@router.post("/{comment_id}/dislike", status_code=200)
+@inject
+async def add_dislike(
+    comment_id: int,
+    service: ICommentService = Depends(Provide[Container.comment_service]),
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+) -> dict:
+    """An endpoint for adding a dislike to a comment.
+
+    Args:
+        comment_id (int): The id of the comment.
+        service (ICommentService, optional): The injected service dependency.
+        credentials (HTTPAuthorizationCredentials, optional): The credentials.
+
+    Returns:
+        dict: Success message.
+    """
+
+    token = credentials.credentials
+    token_payload = jwt.decode(
+        token,
+        key=consts.SECRET_KEY,
+        algorithms=[consts.ALGORITHM],
+    )
+    user_uuid = token_payload.get("sub")
+
+    if not user_uuid:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+
+    if await service.add_dislike(comment_id, user_uuid):
+        return {"message": "Dislike added"}
+    
     raise HTTPException(status_code=404, detail="Comment not found")

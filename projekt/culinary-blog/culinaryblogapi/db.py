@@ -25,11 +25,10 @@ posts_table = sqlalchemy.Table(
     sqlalchemy.Column("title", sqlalchemy.String),
     sqlalchemy.Column("body", sqlalchemy.String),
     sqlalchemy.Column("description", sqlalchemy.String, nullable=True),
-    sqlalchemy.Column("recipe_ingredients", sqlalchemy.String),
-    sqlalchemy.Column("recipe_instructions", sqlalchemy.String, nullable=True),
     sqlalchemy.Column("cook_time_minutes", sqlalchemy.Integer),
     sqlalchemy.Column("tags", sqlalchemy.String),
-    sqlalchemy.Column("image_url", sqlalchemy.String, nullable=True),
+    sqlalchemy.Column("avg_rating", sqlalchemy.Float, default=0.0),
+    sqlalchemy.Column("ratings_count", sqlalchemy.Integer, default=0),
     sqlalchemy.Column(
         "user_id",
         UUID(as_uuid=True),
@@ -43,11 +42,34 @@ comments_table = sqlalchemy.Table(
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("text", sqlalchemy.String),
-    sqlalchemy.Column("rating", sqlalchemy.Integer),
     sqlalchemy.Column("nickname", sqlalchemy.String),
-    sqlalchemy.Column("author_email", sqlalchemy.String, nullable=True),
-    sqlalchemy.Column("likes_count", sqlalchemy.Integer),
-    sqlalchemy.Column("parent_comment_id", sqlalchemy.Integer, nullable=True),
+    sqlalchemy.Column("likes", sqlalchemy.Integer, default=0),
+    sqlalchemy.Column("dislikes", sqlalchemy.Integer, default=0),
+    sqlalchemy.Column(
+        "post_id",
+        sqlalchemy.Integer,
+        sqlalchemy.ForeignKey("posts.id"),
+        nullable=False
+    ),
+    sqlalchemy.Column(
+        "user_id",
+        UUID(as_uuid=True),
+        sqlalchemy.ForeignKey("users.id"),
+        nullable=False
+    )
+)
+
+ratings_table = sqlalchemy.Table(
+    "ratings",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("rating", sqlalchemy.Integer),
+    sqlalchemy.Column(
+        "post_id",
+        sqlalchemy.Integer,
+        sqlalchemy.ForeignKey("posts.id"),
+        nullable=False
+    ),
     sqlalchemy.Column(
         "user_id",
         UUID(as_uuid=True),

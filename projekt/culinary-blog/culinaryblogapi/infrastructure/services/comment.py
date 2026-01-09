@@ -91,3 +91,27 @@ class CommentService(ICommentService):
         """
 
         return await self._repository.delete_comment(comment_id)
+
+    async def add_like(self, comment_id: int, user_id: str) -> bool:
+        """The method for adding a like to a comment.
+
+        Args:
+            comment_id (int): The id of the comment.
+            user_id (str): The id of the user.
+
+        Returns:
+            bool: Success of the operation.
+        """
+        return await self._repository.add_like(comment_id, user_id)
+
+    async def add_dislike(self, comment_id: int, user_id: str) -> bool:
+        """The method for adding a dislike to a comment.
+
+        Args:
+            comment_id (int): The id of the comment.
+            user_id (str): The id of the user.
+
+        Returns:
+            bool: Success of the operation.
+        """
+        return await self._repository.add_dislike(comment_id, user_id)

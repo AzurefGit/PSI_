@@ -1,8 +1,7 @@
-from typing import Optional, List
-
+from typing import Optional
 from pydantic import BaseModel, ConfigDict, UUID4
 
-# from culinaryblogapi.core.domain.comment import Comment
+from culinaryblogapi.core.domain.comment import Comment
 
 
 class PostIn(BaseModel):
@@ -10,12 +9,8 @@ class PostIn(BaseModel):
     title: str
     body: str
     description: Optional[str]
-    recipe_ingredients: str
-    recipe_instructions: str
     cook_time_minutes: Optional[int]
     tags: Optional[str]
-    # comments_section: List[Comment] = None
-    image_url: Optional[str]
 
 
 class PostBroker(PostIn):
@@ -26,5 +21,7 @@ class PostBroker(PostIn):
 class Post(PostBroker):
     """Model representing post's attributes in the database."""
     id: int
+    avg_rating: float
+    ratings_count: int
 
     model_config = ConfigDict(from_attributes=True, extra="ignore")

@@ -1,18 +1,13 @@
-"""Module containing comment repository implementation."""
-
-from typing import Optional
+"""Module containing rating DTO model."""
 
 from asyncpg import Record
 from pydantic import UUID4, BaseModel, ConfigDict
 
 
-class CommentDTO(BaseModel):
+class RatingDTO(BaseModel):
     id: int
     post_id: int
-    text: str
-    nickname: str
-    likes: int = 0
-    dislikes: int = 0
+    rating: int
     user_id: UUID4
 
     model_config = ConfigDict(
@@ -22,23 +17,20 @@ class CommentDTO(BaseModel):
     )
 
     @classmethod
-    def from_record(cls, record: Record) -> "CommentDTO":
+    def from_record(cls, record: Record) -> "RatingDTO":
         """A method for preparing DTO instance based on DB record.
 
         Args:
             record (Record): The DB record.
 
         Returns:
-            CommentDTO: The final DTO instance.
+            RatingDTO: The final DTO instance.
         """
         record_dict = dict(record)
 
         return cls(
             id=record_dict.get("id"),
             post_id=record_dict.get("post_id"),
-            text=record_dict.get("text"),
-            nickname=record_dict.get("nickname"),
-            likes=record_dict.get("likes_count"),
-            dislikes=record_dict.get("dislikes"),
+            rating=record_dict.get("rating"),
             user_id=record_dict.get("user_id")
         )

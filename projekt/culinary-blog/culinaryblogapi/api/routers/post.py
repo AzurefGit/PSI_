@@ -35,9 +35,9 @@ async def create_post(
     Returns:
         dict: The new post attributes.
     """
+    
     token = credentials.credentials
-    print(f"Received token: {token}")  # DEBUG
-    print(f"Token length: {len(token)}")  # DEBUG
+
     token_payload = jwt.decode(
         token,
         key=consts.SECRET_KEY,
@@ -76,7 +76,7 @@ async def get_all_posts(
 
 
 @router.get(
-        "/{post_id}",
+        "/id/{post_id}",
         response_model=PostDTO,
         status_code=200,
 )
@@ -99,6 +99,31 @@ async def get_post_by_id(
         return post.model_dump()
 
     raise HTTPException(status_code=404, detail="Post not found")
+
+
+@router.get(
+        "/title/{title}",
+        response_model=Iterable[PostDTO],
+        status_code=200,
+)
+@inject
+async def get_post_by_title(
+    text: str,
+    service: IPostService = Depends(Provide[Container.post_service]),
+) -> dict | None:
+    """An endpoint for getting posts by full title or by a part of it.
+
+    Args:
+        text (str): The title of the posts.
+        service (IPostService, optional): The injected service dependency.
+
+    Returns:
+        dict | None: The posts details.
+    """
+
+    posts = await service.get_by_title(text)
+
+    return posts
 
 
 @router.get(

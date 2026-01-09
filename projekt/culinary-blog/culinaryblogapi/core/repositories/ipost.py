@@ -25,6 +25,14 @@ class IPostRepository(ABC):
         """
 
     @abstractmethod
+    async def get_by_title(self, text: str) -> Iterable[Post]:
+        """The abstract getting posts that has at last a part of searched title from the data storage.
+
+        Returns:
+            Iterable[Post]: The collection of the posts that matches the title.
+        """
+
+    @abstractmethod
     async def get_by_user(self, user_id: str) -> Iterable[Post]:
         """The method getting posts by user who added them.
 
@@ -64,4 +72,22 @@ class IPostRepository(ABC):
 
         Returns:
             bool: Success of the operation
+        """
+
+    @abstractmethod
+    async def update_post_rating(
+        self,
+        post_id: int,
+        avg_rating: float,
+        ratings_count: int
+    ) -> bool:
+        """The abstract method for updating post's rating statistics.
+
+        Args:
+            post_id (int): The id of the post.
+            avg_rating (float): The new average rating.
+            ratings_count (int): The total number of ratings.
+
+        Returns:
+            bool: Success of the operation.
         """

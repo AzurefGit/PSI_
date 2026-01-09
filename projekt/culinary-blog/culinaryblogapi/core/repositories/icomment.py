@@ -65,3 +65,31 @@ class ICommentRepository(ABC):
         Returns:
             bool: Success of the operation.
         """
+
+    @abstractmethod
+    async def add_like(self, comment_id: int, user_id: str) -> bool:
+        """The abstract method for adding a like to a comment.
+
+        If user already disliked this comment, it will be changed to like.
+
+        Args:
+            comment_id (int): The id of the comment.
+            user_id (str): The id of the user.
+
+        Returns:
+            bool: Success of the operation.
+        """
+
+    @abstractmethod
+    async def add_dislike(self, comment_id: int, user_id: str) -> bool:
+        """The abstract method for adding a dislike to a comment.
+
+        If user already liked this comment, it will be changed to dislike.
+
+        Args:
+            comment_id (int): The id of the comment.
+            user_id (str): The id of the user.
+
+        Returns:
+            bool: Success of the operation.
+        """

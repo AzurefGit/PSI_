@@ -1,9 +1,9 @@
 """Module containing comment repository implementation."""
 
-from typing import Any, Iterable
+from typing import Iterable
 from asyncpg import Record
 
-from culinaryblogapi.core.domain.comment import Comment, CommentIn
+from culinaryblogapi.core.domain.comment import Comment, CommentBroker
 from culinaryblogapi.core.repositories.icomment import ICommentRepository
 from culinaryblogapi.db import (
     comments_table,
@@ -14,14 +14,15 @@ from culinaryblogapi.db import (
 class CommentRepository(ICommentRepository):
     """A class representing comment DB repository."""
 
-    async def get_comment_by_id(self, comment_id: int) -> Any | None:
+    async def get_comment_by_id(self, comment_id: int) -> Comment | None:
         """The method getting comment from the data storage by ID.
 
         Returns:
-            Any: Comment in the data storage.
+            Comment | None: Comment in the data storage.
         """
 
         comment = await self._get_by_id(comment_id)
+
         return Comment(**dict(comment)) if comment else None
 
     async def get_all_comments(self) -> Iterable[Comment]:
@@ -31,7 +32,7 @@ class CommentRepository(ICommentRepository):
             Iterable[Comment]: Comments in the data storage.
         """
 
-        query = comments_table.select().order_by(comments_table.c.rating.asc())
+        query = comments_table.select().order_by(comments_table.c.likes.desc())
         comments = await database.fetch_all(query)
 
         return [Comment(**dict(comment)) for comment in comments]
@@ -49,39 +50,44 @@ class CommentRepository(ICommentRepository):
         query = (
             comments_table.select()
             .where(comments_table.c.user_id == user_id)
-            .order_by(comments_table.c.rating.asc())
+            .order_by(comments_table.c.likes.desc())
         )
         comments = await database.fetch_all(query)
 
         return [Comment(**dict(comment)) for comment in comments]
 
-    async def add_comment(self, data: CommentIn) -> Any | None:
+    async def add_comment(self, data: CommentBroker) -> Comment | None:
         """The abstract adding new comment to the data storage.
 
         Args:
-            data (CommentIn): The attributes of the comment.
+            data (CommentBroker): The attributes of the comment.
 
         Returns:
-            Any | None: The newly created comment.
+            Comment | None: The newly created comment.
         """
 
-        query = comments_table.insert().values(**data.model_dump())
+        values = data.model_dump()
+        values["likes"] = 0
+        values["dislikes"] = 0
+
+        query = comments_table.insert().values(**values)
         new_comment_id = await database.execute(query)
         new_comment = await self._get_by_id(new_comment_id)
 
         return Comment(**dict(new_comment)) if new_comment else None
 
-    async def update_comment(self, comment_id: int, data: CommentIn) -> Any | None:
+    async def update_comment(self, comment_id: int, data: CommentBroker) -> Comment | None:
         """The abstract updating comment data in the data storage.
 
         Args:
             comment_id (int): The comment id.
-            data (CommentIn): The attributes of the comment.
+            data (CommentBroker): The attributes of the comment.
 
         Returns:
-            Any | None: The updated comment.
+            Comment | None: The updated comment.
         """
-        if self._get_by_id(comment_id):
+
+        if await self._get_by_id(comment_id):
             query = (
                 comments_table.update()
                 .where(comments_table.c.id == comment_id)
@@ -102,10 +108,53 @@ class CommentRepository(ICommentRepository):
             comment_id (int): The comment id.
         """
 
-        if self._get_by_id(comment_id):
+        if await self._get_by_id(comment_id):
             query = comments_table \
                 .delete() \
                 .where(comments_table.c.id == comment_id)
+            await database.execute(query)
+
+            return True
+
+        return False
+
+    async def add_like(self, comment_id: int, user_id: str) -> bool:
+        """The abstract method for adding a like to a comment.
+
+        Args:
+            comment_id (int): The id of the comment.
+            user_id (str): The id of the user.
+
+        Returns:
+            bool: Success of the operation.
+        """
+
+        if await self._get_by_id(comment_id):
+            query = (
+                comments_table.update()
+                .where(comments_table.c.id == comment_id)
+                .values(likes=comments_table.c.likes + 1)
+            )
+            await database.execute(query)
+            return True
+        return False
+
+    async def add_dislike(self, comment_id: int, user_id: str) -> bool:
+        """The abstract method for adding a dislike to a comment.
+
+        Args:
+            comment_id (int): The id of the comment.
+            user_id (str): The id of the user.
+
+        Returns:
+            bool: Success of the operation.
+        """
+        if await self._get_by_id(comment_id):
+            query = (
+                comments_table.update()
+                .where(comments_table.c.id == comment_id)
+                .values(dislikes=comments_table.c.dislikes + 1)
+            )
             await database.execute(query)
 
             return True
@@ -119,13 +168,12 @@ class CommentRepository(ICommentRepository):
             comment_id (int): The ID of the comment.
 
         Returns:
-            Any | None: Comment record if exists.
+            Record | None: Comment record if exists.
         """
 
         query = (
             comments_table.select()
             .where(comments_table.c.id == comment_id)
-            .order_by(comments_table.c.rating.asc())
         )
 
         return await database.fetch_one(query)
