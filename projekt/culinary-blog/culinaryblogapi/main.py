@@ -10,6 +10,7 @@ from culinaryblogapi.api.routers.post import router as post_router
 from culinaryblogapi.api.routers.comment import router as comment_router
 from culinaryblogapi.api.routers.rating import router as rating_router
 from culinaryblogapi.api.routers.user import router as user_router
+from culinaryblogapi.api.routers.bookmark import router as bookmark_router
 from culinaryblogapi.container import Container
 from culinaryblogapi.db import database, init_db
 
@@ -18,7 +19,8 @@ container.wire(modules=[
     "culinaryblogapi.api.routers.post",
     "culinaryblogapi.api.routers.comment",
     "culinaryblogapi.api.routers.rating",
-    "culinaryblogapi.api.routers.user",
+    "culinaryblogapi.api.routers.bookmark",
+    "culinaryblogapi.api.routers.user"
 ])
 
 
@@ -35,7 +37,9 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(post_router, prefix="/post")
 app.include_router(comment_router, prefix="/comment")
 app.include_router(rating_router, prefix="/rating")
+app.include_router(bookmark_router, prefix="/bookmark")
 app.include_router(user_router, prefix="")
+
 
 
 @app.exception_handler(HTTPException)

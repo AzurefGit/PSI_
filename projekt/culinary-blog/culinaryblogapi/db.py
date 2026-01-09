@@ -78,6 +78,24 @@ ratings_table = sqlalchemy.Table(
     )
 )
 
+bookmarks_table = sqlalchemy.Table(
+    "bookmarks",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column(
+        "post_id",
+        sqlalchemy.Integer,
+        sqlalchemy.ForeignKey("posts.id"),
+        nullable=False
+    ),
+    sqlalchemy.Column(
+        "user_id",
+        UUID(as_uuid=True),
+        sqlalchemy.ForeignKey("users.id"),
+        nullable=False
+    )
+)
+
 user_table = sqlalchemy.Table(
     "users",
     metadata,
