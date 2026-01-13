@@ -75,18 +75,13 @@ class IPostRepository(ABC):
         """
 
     @abstractmethod
-    async def update_post_rating(
-        self,
-        post_id: int,
-        avg_rating: float,
-        ratings_count: int
-    ) -> bool:
+    async def update_post_rating(self, post_id: int, avg_rating: float, ratings_count: int) -> bool:
         """The abstract method for updating post's rating statistics.
 
         Args:
             post_id (int): The id of the post.
-            avg_rating (float): The new average rating.
-            ratings_count (int): The total number of ratings.
+            avg_rating (float): New average rating.
+            ratings_count (int): Total number of ratings.
 
         Returns:
             bool: Success of the operation.

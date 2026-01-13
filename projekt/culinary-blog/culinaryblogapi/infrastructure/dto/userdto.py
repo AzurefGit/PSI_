@@ -1,6 +1,5 @@
 """A module containing user DTO model."""
 
-
 from pydantic import UUID4, BaseModel, ConfigDict
 
 

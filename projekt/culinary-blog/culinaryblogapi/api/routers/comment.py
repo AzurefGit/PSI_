@@ -48,11 +48,11 @@ async def create_comment(
         raise HTTPException(status_code=403, detail="Unauthorized")
 
     extended_comment_data = CommentBroker(
-        user_id=user_uuid,
-        **comment.model_dump(),
+            user_id=user_uuid,
+            **comment.model_dump(),
     )
-    new_comment = await service.add_comment(extended_comment_data)
 
+    new_comment = await service.add_comment(extended_comment_data)
     return new_comment.model_dump() if new_comment else {}
 
 
@@ -122,7 +122,6 @@ async def get_comment_by_user(
     """
 
     comments = await service.get_by_user(user_id)
-
     return comments
 
 
@@ -183,16 +182,29 @@ async def update_comment(
 async def delete_comment(
     comment_id: int,
     service: ICommentService = Depends(Provide[Container.comment_service]),
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
 ) -> None:
     """An endpoint for deleting comments.
 
     Args:
         comment_id (int): The id of the comment.
         service (ICommentService, optional): The injected service dependency.
+        credentials (HTTPAuthorizationCredentials, optional): The credentials.
 
     Raises:
         HTTPException: 404 if comment does not exist.
     """
+
+    token = credentials.credentials
+    token_payload = jwt.decode(
+        token,
+        key=consts.SECRET_KEY,
+        algorithms=[consts.ALGORITHM],
+    )
+    user_uuid = token_payload.get("sub")
+
+    if not user_uuid:
+        raise HTTPException(status_code=403, detail="Unauthorized")
 
     if await service.get_by_id(comment_id=comment_id):
         await service.delete_comment(comment_id)
@@ -231,7 +243,7 @@ async def add_like(
         raise HTTPException(status_code=403, detail="Unauthorized")
 
     if await service.add_like(comment_id, user_uuid):
-        return {"message": "Like added"}
+        return {"message": "Like dodany"}
     
     raise HTTPException(status_code=404, detail="Comment not found")
 
@@ -266,6 +278,7 @@ async def add_dislike(
         raise HTTPException(status_code=403, detail="Unauthorized")
 
     if await service.add_dislike(comment_id, user_uuid):
-        return {"message": "Dislike added"}
+        return {"message": "Dislike dodany"}
     
     raise HTTPException(status_code=404, detail="Comment not found")
+

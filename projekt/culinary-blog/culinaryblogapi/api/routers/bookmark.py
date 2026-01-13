@@ -51,9 +51,9 @@ async def add_bookmark(
         user_id=user_uuid,
         post_id=post_id
     )
-    
+
     new_bookmark = await service.add_bookmark(bookmark_data)
-    
+
     if new_bookmark:
         return new_bookmark.model_dump()
     

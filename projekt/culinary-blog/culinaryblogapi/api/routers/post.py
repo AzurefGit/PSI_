@@ -147,7 +147,6 @@ async def get_posts_by_user(
     """
 
     posts = await service.get_by_user(user_id)
-
     return posts
 
 
@@ -208,16 +207,29 @@ async def update_post(
 async def delete_post(
     post_id: int,
     service: IPostService = Depends(Provide[Container.post_service]),
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
 ) -> None:
     """An endpoint for deleting posts.
 
     Args:
         post_id (int): The id of the post.
         service (IPostService, optional): The injected service dependency.
+        credentials (HTTPAuthorizationCredentials, optional): The credentials.
 
     Raises:
         HTTPException: 404 if post does not exist.
     """
+
+    token = credentials.credentials
+    token_payload = jwt.decode(
+        token,
+        key=consts.SECRET_KEY,
+        algorithms=[consts.ALGORITHM],
+    )
+    user_uuid = token_payload.get("sub")
+
+    if not user_uuid:
+        raise HTTPException(status_code=403, detail="Unauthorized")
 
     if await service.get_post_by_id(post_id=post_id):
         await service.delete_post(post_id)

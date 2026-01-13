@@ -43,6 +43,7 @@ class RatingRepository(IRatingRepository):
             .where(ratings_table.c.post_id == post_id)
         )
         ratings = await database.fetch_all(query)
+
         return [Rating(**dict(rating)) for rating in ratings]
 
     async def add_rating(self, data: RatingBroker) -> Rating | None:
@@ -70,11 +71,13 @@ class RatingRepository(IRatingRepository):
                 .where(ratings_table.c.id == existing_rating["id"])
                 .values(rating=data.rating)
             )
+
             await database.execute(query)
             rating_id = existing_rating["id"]
         else:
             query = ratings_table.insert().values(**data.model_dump())
             rating_id = await database.execute(query)
+
 
         new_rating = await self._get_by_id(rating_id)
         
@@ -92,6 +95,7 @@ class RatingRepository(IRatingRepository):
 
         query = select(func.avg(ratings_table.c.rating)).where(ratings_table.c.post_id == post_id)
         result = await database.fetch_val(query)
+
         return float(result) if result is not None else 0.0
 
     async def get_ratings_count(self, post_id: int) -> int:
@@ -106,6 +110,7 @@ class RatingRepository(IRatingRepository):
 
         query = select(func.count(ratings_table.c.id)).where(ratings_table.c.post_id == post_id)
         result = await database.fetch_val(query)
+
         return int(result) if result is not None else 0
 
     async def _get_by_id(self, rating_id: int) -> Record | None:
@@ -122,4 +127,5 @@ class RatingRepository(IRatingRepository):
             ratings_table.select()
             .where(ratings_table.c.id == rating_id)
         )
+
         return await database.fetch_one(query)

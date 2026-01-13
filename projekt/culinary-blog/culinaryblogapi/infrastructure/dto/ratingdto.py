@@ -1,4 +1,4 @@
-"""Module containing rating DTO model."""
+"""Module containing rating repository implementation."""
 
 from asyncpg import Record
 from pydantic import UUID4, BaseModel, ConfigDict

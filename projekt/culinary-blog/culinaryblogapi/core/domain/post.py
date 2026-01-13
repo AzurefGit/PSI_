@@ -1,8 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel, ConfigDict, UUID4
 
-from culinaryblogapi.core.domain.comment import Comment
-
 
 class PostIn(BaseModel):
     """Model representing post's DTO attributes."""

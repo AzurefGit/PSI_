@@ -111,7 +111,6 @@ class PostRepository(IPostRepository):
                 .values(**data.model_dump())
             )
             await database.execute(query)
-
             post = await self._get_by_id(post_id)
 
             return Post(**dict(post)) if post else None
@@ -131,23 +130,17 @@ class PostRepository(IPostRepository):
             .delete() \
             .where(posts_table.c.id == post_id)
             await database.execute(query)
-
             return True
 
         return False
 
-    async def update_post_rating(
-        self,
-        post_id: int,
-        avg_rating: float,
-        ratings_count: int
-    ) -> bool:
+    async def update_post_rating(self, post_id: int, avg_rating: float, ratings_count: int) -> bool:
         """The abstract method for updating post's rating statistics.
 
         Args:
             post_id (int): The id of the post.
-            avg_rating (float): The new average rating.
-            ratings_count (int): The total number of ratings.
+            avg_rating (float): New average rating.
+            ratings_count (int): Total number of ratings.
 
         Returns:
             bool: Success of the operation.
@@ -162,6 +155,7 @@ class PostRepository(IPostRepository):
             )
             await database.execute(query)
             return True
+
         return False
 
     async def _get_by_id(self, post_id: int) -> Record | None:

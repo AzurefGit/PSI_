@@ -1,5 +1,3 @@
-"""A module containing rating repository abstraction."""
-
 from abc import ABC, abstractmethod
 from typing import Iterable
 
@@ -7,8 +5,6 @@ from culinaryblogapi.core.domain.rating import Rating, RatingIn, RatingBroker
 
 
 class IRatingRepository(ABC):
-    """An abstract repository for rating operations."""
-
     @abstractmethod
     async def get_rating_by_id(self, rating_id: int) -> Rating | None:
         """The abstract method for getting a rating from the data storage by ID.

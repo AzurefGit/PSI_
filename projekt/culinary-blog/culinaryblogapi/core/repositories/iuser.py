@@ -1,6 +1,5 @@
 """A repository for user entity."""
 
-
 from abc import ABC, abstractmethod
 from typing import Any
 

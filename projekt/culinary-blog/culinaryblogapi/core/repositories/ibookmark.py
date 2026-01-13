@@ -1,5 +1,3 @@
-"""Module containing bookmark repository abstraction."""
-
 from abc import ABC, abstractmethod
 from typing import Iterable
 
@@ -8,8 +6,6 @@ from culinaryblogapi.core.domain.post import Post
 
 
 class IBookmarkRepository(ABC):
-    """A class representing bookmark repository."""
-
     @abstractmethod
     async def add_bookmark(self, data: BookmarkIn) -> Bookmark | None:
         """The method adding new bookmark to the data storage.

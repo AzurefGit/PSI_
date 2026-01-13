@@ -124,7 +124,7 @@ engine = create_async_engine(
 
 database = databases.Database(
     db_uri,
-    force_rollback=True,
+    force_rollback=True
 )
 
 

@@ -31,7 +31,9 @@ class BookmarkRepository(IBookmarkRepository):
             .where(bookmarks_table.c.user_id == data.user_id)
             .where(bookmarks_table.c.post_id == data.post_id)
         )
+
         existing = await database.fetch_one(query)
+
         if existing:
             return Bookmark(**dict(existing))
 
@@ -58,6 +60,7 @@ class BookmarkRepository(IBookmarkRepository):
             (bookmarks_table.c.post_id == post_id)
         )
         await database.execute(query)
+
         return True
 
     async def get_user_bookmarks(self, user_id: str) -> Iterable[Post]:
@@ -75,8 +78,9 @@ class BookmarkRepository(IBookmarkRepository):
             .select()
             .where(bookmarks_table.c.user_id == user_id)
         )
-        
+    
         posts = await database.fetch_all(query)
+
         return [Post(**dict(post)) for post in posts]
 
     async def _get_by_id(self, bookmark_id: int) -> Record | None:

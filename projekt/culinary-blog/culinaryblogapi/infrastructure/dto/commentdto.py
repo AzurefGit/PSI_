@@ -1,7 +1,5 @@
 """Module containing comment repository implementation."""
 
-from typing import Optional
-
 from asyncpg import Record
 from pydantic import UUID4, BaseModel, ConfigDict
 

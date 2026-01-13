@@ -1,4 +1,5 @@
 """Module containing comment repository implementation."""
+
 from typing import Optional
 
 from asyncpg import Record

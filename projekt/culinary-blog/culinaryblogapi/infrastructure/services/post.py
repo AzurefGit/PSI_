@@ -1,4 +1,5 @@
 """Module containing post service implementation."""
+
 from typing import Iterable
 
 from culinaryblogapi.core.domain.post import Post, PostBroker
@@ -101,24 +102,15 @@ class PostService(IPostService):
 
         return await self._repository.delete_post(post_id)
 
-    async def update_post_rating(
-        self,
-        post_id: int,
-        avg_rating: float,
-        ratings_count: int
-    ) -> bool:
+    async def update_post_rating(self, post_id: int, avg_rating: float, ratings_count: int) -> bool:
         """The method for updating post's rating statistics.
 
         Args:
             post_id (int): The id of the post.
-            avg_rating (float): The new average rating.
-            ratings_count (int): The total number of ratings.
+            avg_rating (float): New average rating.
+            ratings_count (int): Total number of ratings.
 
         Returns:
             bool: Success of the operation.
         """
-        return await self._repository.update_post_rating(
-            post_id,
-            avg_rating,
-            ratings_count
-        )
+        return await self._repository.update_post_rating(post_id, avg_rating, ratings_count)

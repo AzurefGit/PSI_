@@ -53,22 +53,18 @@ async def add_rating(
         user_id=user_uuid,
         **rating.model_dump(),
     )
-    
-    new_rating = await rating_service.add_rating(extended_rating_data)
-    
-    if new_rating:
-        avg_rating = await rating_service.calculate_avg_rating(rating.post_id)
-        ratings_count = await rating_service.get_ratings_count(rating.post_id)
-        
-        await post_service.update_post_rating(
-            post_id=rating.post_id,
-            avg_rating=avg_rating,
-            ratings_count=ratings_count
-        )
 
-        return new_rating.model_dump()
-    
-    return {}
+    new_rating = await rating_service.add_rating(extended_rating_data)
+    avg_rating = await rating_service.calculate_avg_rating(rating.post_id)
+    ratings_count = await rating_service.get_ratings_count(rating.post_id)
+        
+    await post_service.update_post_rating(
+        post_id=rating.post_id,
+        avg_rating=avg_rating,
+        ratings_count=ratings_count
+    )
+
+    return new_rating.model_dump()
 
 
 @router.get("/post/{post_id}", response_model=Iterable[Rating], status_code=200)

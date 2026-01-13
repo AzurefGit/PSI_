@@ -71,6 +71,7 @@ class CommentRepository(ICommentRepository):
         values["dislikes"] = 0
 
         query = comments_table.insert().values(**values)
+
         new_comment_id = await database.execute(query)
         new_comment = await self._get_by_id(new_comment_id)
 
@@ -136,7 +137,9 @@ class CommentRepository(ICommentRepository):
                 .values(likes=comments_table.c.likes + 1)
             )
             await database.execute(query)
+
             return True
+
         return False
 
     async def add_dislike(self, comment_id: int, user_id: str) -> bool:

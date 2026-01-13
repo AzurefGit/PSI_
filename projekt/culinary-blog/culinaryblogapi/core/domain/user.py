@@ -1,6 +1,5 @@
 """A model containing user-related models."""
 
-
 from pydantic import BaseModel, ConfigDict, UUID1
 
 
